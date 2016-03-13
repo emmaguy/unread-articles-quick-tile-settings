@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Unread Articles Quick Tile</string>
+    <string name="auth_with_pocket">Auth with Pocket</string>
+    <string name="redirecting_to_browser">Redirecting to browser…</string>
+
+    <string name="unread_articles">Unread Articles</string>
+    <string name="unread_articles_format">Unread Articles: %d</string>
+
+    <string name="info_please_login">To retrieve how many unread articles you have, please login with Pocket</string>
+    <string name="info_logged_in">Successfully logged in with Pocket. Unread article count will be updated hourly.</string>
+
+</resources>

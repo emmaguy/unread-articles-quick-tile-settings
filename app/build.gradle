@@ -1,0 +1,67 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+String readPropertyFromFile(propertyName, fileName) {
+    Properties properties = new Properties()
+    new File(fileName).withInputStream {
+        properties.load(it)
+    }
+    return properties."$propertyName"
+}
+
+android {
+    compileSdkVersion 'android-N'
+    buildToolsVersion "24.0.0 rc1"
+
+    defaultConfig {
+        applicationId "com.emmaguy.quicktilepocket"
+        minSdkVersion 'N'
+        targetSdkVersion 'N'
+        versionCode 1
+        versionName "1.0"
+
+        resValue "string", "pocket_consumer_key", readPropertyFromFile('consumer_key', 'app/pocket.properties')
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    // Ui
+    compile 'com.android.support:appcompat-v7:24.0.0-alpha1'
+
+    // RxJava
+    compile 'io.reactivex:rxjava:1.1.1'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.0.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:0.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+
+    // Network
+    compile 'com.squareup.retrofit2:retrofit:2.0.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+
+    // Logging
+    compile 'com.jakewharton.timber:timber:4.1.0'
+
+    // Kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Unit tests
+    testCompile 'junit:junit:4.12'
+}
+buildscript {
+    ext.kotlin_version = '1.0.0'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
+}
