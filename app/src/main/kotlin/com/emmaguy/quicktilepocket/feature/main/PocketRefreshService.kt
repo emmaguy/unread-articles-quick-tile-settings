@@ -2,8 +2,10 @@ package com.emmaguy.quicktilepocket.feature.main
 
 import android.app.job.JobParameters
 import android.app.job.JobService
+import android.content.Intent
 import com.emmaguy.quicktilepocket.Inject
 import com.emmaguy.quicktilepocket.Injector
+import com.emmaguy.quicktilepocket.feature.PocketQuickSettingsTileService
 import com.emmaguy.quicktilepocket.feature.RetrofitExtensions.success
 import com.google.gson.annotations.SerializedName
 import okhttp3.MediaType
@@ -31,7 +33,10 @@ class PocketRefreshService : JobService(), Injector by Inject.instance {
                 .filter { it.success() }
                 .map { it.response().body() }
                 .subscribeOn(Schedulers.io())
-                .subscribe({ userStorage.storeUnreadCount(it.unreadCount) })
+                .subscribe({
+                    userStorage.storeUnreadCount(it.unreadCount)
+                    appContext.startService(Intent(appContext, PocketQuickSettingsTileService::class.java))
+                })
 
         return true
     }
