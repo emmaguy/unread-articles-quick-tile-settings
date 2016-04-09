@@ -4,6 +4,7 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import com.emmaguy.quicktilepocket.AppModule
+import com.emmaguy.quicktilepocket.feature.PocketRefreshService
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory

@@ -3,6 +3,7 @@
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".App"
@@ -22,7 +23,7 @@
         </service>
 
         <service
-            android:name=".feature.main.PocketRefreshService"
+            android:name=".feature.PocketRefreshService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".feature.main.MainActivity">

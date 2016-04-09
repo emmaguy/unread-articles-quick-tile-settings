@@ -3,6 +3,7 @@ package com.emmaguy.quicktilepocket.feature.main
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
+import android.text.TextUtils
 import com.emmaguy.quicktilepocket.base.AbstractPresenter
 import com.emmaguy.quicktilepocket.feature.RetrofitExtensions.success
 import com.emmaguy.quicktilepocket.storage.UserStorage
@@ -36,6 +37,7 @@ final class MainPresenter(val uiScheduler: Scheduler,
                     .flatMap({ authApi.requestToken(requestTokenBody()).subscribeOn(ioScheduler) })
                     .filter { it.success() }
                     .map { it.response().body() }
+                    .filter { !TextUtils.isEmpty(it.code) }
                     .doOnNext({ userStorage.storeRequestToken(it.code) })
                     .observeOn(uiScheduler)
                     .subscribe({
@@ -66,11 +68,15 @@ final class MainPresenter(val uiScheduler: Scheduler,
         val jobInfo = JobInfo.Builder(JOB_ID_REFRESH_UNREAD_COUNT, componentName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPeriodic(TimeUnit.HOURS.toMillis(1))
+                .setPersisted(true)
                 .build()
 
         val jobId = jobScheduler.schedule(jobInfo)
         if (jobId <= 0) {
             // Failed
+            Timber.d("Failed to schedule refresh: " + jobId)
+        } else {
+            Timber.d("Successfully scheduled refresh")
         }
     }
 

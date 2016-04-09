@@ -1,11 +1,11 @@
-package com.emmaguy.quicktilepocket.feature.main
+package com.emmaguy.quicktilepocket.feature
 
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Intent
+import com.emmaguy.quicktilepocket.AppModule
 import com.emmaguy.quicktilepocket.Inject
 import com.emmaguy.quicktilepocket.Injector
-import com.emmaguy.quicktilepocket.feature.PocketQuickSettingsTileService
 import com.emmaguy.quicktilepocket.feature.RetrofitExtensions.success
 import com.google.gson.annotations.SerializedName
 import okhttp3.MediaType
@@ -17,10 +17,12 @@ import rx.Subscription
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
-class PocketRefreshService : JobService(), Injector by Inject.instance {
+class PocketRefreshService : JobService(), AppModule by Inject.instance {
     private var subscription: Subscription? = null
 
     override fun onStartJob(jobParameters: JobParameters): Boolean {
+        Timber.d("onStartJob, accessToken: ${userStorage.accessToken}")
+
         val pocketApi = Retrofit.Builder()
                 .baseUrl("https://getpocket.com/")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -29,11 +31,12 @@ class PocketRefreshService : JobService(), Injector by Inject.instance {
                 .create(PocketApi::class.java)
 
         subscription = pocketApi.refresh(createRefreshHolder())
-                .doOnNext { Timber.d("emmais refresh: " + it.response().body()) }
+                .doOnNext { Timber.d("Refresh unread count: " + it.response().body()) }
                 .filter { it.success() }
                 .map { it.response().body() }
                 .subscribeOn(Schedulers.io())
                 .subscribe({
+                    Timber.d("Storing new unread count: ${it.unreadCount}")
                     userStorage.storeUnreadCount(it.unreadCount)
                     appContext.startService(Intent(appContext, PocketQuickSettingsTileService::class.java))
                 })

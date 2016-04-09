@@ -1,4 +1,4 @@
-package com.emmaguy.quicktilepocket.feature.main
+package com.emmaguy.quicktilepocket.feature
 
 import com.google.gson.annotations.SerializedName
 import okhttp3.RequestBody
