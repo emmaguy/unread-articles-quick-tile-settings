@@ -31,7 +31,6 @@ class PocketRefreshService : JobService(), AppModule by Inject.instance {
                 .create(PocketApi::class.java)
 
         subscription = pocketApi.refresh(createRefreshHolder())
-                .doOnNext { Timber.d("Refresh unread count: " + it.response().body()) }
                 .filter { it.success() }
                 .map { it.response().body() }
                 .subscribeOn(Schedulers.io())
