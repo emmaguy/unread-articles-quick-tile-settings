@@ -11,13 +11,13 @@ String readPropertyFromFile(propertyName, fileName) {
 }
 
 android {
-    compileSdkVersion 'android-N'
-    buildToolsVersion "24.0.0 rc1"
+    compileSdkVersion 24
+    buildToolsVersion '24.0.0'
 
     defaultConfig {
         applicationId "com.emmaguy.quicktilepocket"
-        minSdkVersion 'N'
-        targetSdkVersion 'N'
+        minSdkVersion 24
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
@@ -30,21 +30,21 @@ android {
 
 dependencies {
     // Ui
-    compile 'com.android.support:appcompat-v7:24.0.0-alpha1'
+    compile 'com.android.support:appcompat-v7:24.0.0'
 
     // RxJava
-    compile 'io.reactivex:rxjava:1.1.1'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'com.jakewharton.rxrelay:rxrelay:1.0.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:0.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:0.4.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
 
     // Network
-    compile 'com.squareup.retrofit2:retrofit:2.0.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     // Logging
-    compile 'com.jakewharton.timber:timber:4.1.0'
+    compile 'com.jakewharton.timber:timber:4.1.2'
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -53,7 +53,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 buildscript {
-    ext.kotlin_version = '1.0.1'
+    ext.kotlin_version = '1.0.2'
     repositories {
         mavenCentral()
     }
